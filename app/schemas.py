@@ -9,4 +9,3 @@ class TokenData(BaseModel):
 class UserCreate(BaseModel):
     email: EmailStr
     name: str
-    phone_number: int
