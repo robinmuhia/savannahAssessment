@@ -52,6 +52,7 @@ async def auth(request: Request, db: Session = Depends(get_db)):
             return JSONResponse({
                 'result': True,
                 'access_token': oauth2.create_access_token(data={"user_id": user_exists.id}),
+                'success_message': "User exists"
             }, status_code=200)
         new_user_data = UserCreate(
             email=user_email, name=user_name)
@@ -63,30 +64,44 @@ async def auth(request: Request, db: Session = Depends(get_db)):
         return JSONResponse({
             'result': True,
             'access_token': oauth2.create_access_token(data={"user_id": new_user.id}),
-        }, status_code=201)
+            'success_message': "user successfully added"
+        }, status_code=200)
 
 
 @router.post('/phone', status_code=status.HTTP_200_OK)
 async def add_number(request: Request, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
-    user_query = db.query(models.Customer).filter(
-        models.Customer.id == current_user.id)
-    user = user_query.first()
-    if user == None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f'No post with id {id} exists')
     request_body: dict = await request.json()
     phone_number = request_body.get('phone_number')
+    # check if phone number is integer
     if phone_number is not None:
         try:
             phone_number = int(phone_number)
         except ValueError:
             raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                                detail="phone_number must be an integer")
+                                detail="Phone number must be an integer")
 
-    if len(str(phone_number)) != 9 or str(phone_number)[:1] != "7":
+    # check if phone number is accurate
+    if len(str(phone_number)) != 9 or str(phone_number)[0] != "7":
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                             detail=f'Phone number must be 10 characters in length starting with 07')
 
-    user.phone_number = phone_number
+    # search for customer with phone number and reject if user exists
+    user_query = db.query(models.Customer).filter(
+        models.Customer.phone_number == phone_number)
+    user = user_query.first()
+    if user:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            detail=f'0{phone_number} already in use')
+    # check if user is authenticated
+    user_updated = db.query(models.Customer).filter(
+        models.Customer.id == current_user.id).first()
+    if user_updated == None:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="User does not exist")
+
+    user_updated.phone_number = phone_number
     db.commit()
-    return user_query.first()
+    return JSONResponse({
+        "result": True,
+        "success_message": "User successfully updated"
+    })

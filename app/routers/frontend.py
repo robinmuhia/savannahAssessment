@@ -22,26 +22,58 @@ async def homepage(request: Request):
         req.onreadystatechange = function() {
             if (req.readyState === 4) {
                 console.log(req.response);
-                if (req.response["result"] === true) {
+                if (req.status === 200 && req.response["result"] === true) {
                     window.localStorage.setItem('jwt', req.response["access_token"]);
+                    showAlert(req.response["success_message"])
+                } else {
+                    showAlert('Error: This is an Oauth authlib cache issue. Use another browser or clear cache');
                 }
             }
         }
         req.withCredentials = true;
         req.responseType = 'json';
-        req.open("get", "/api/auth/token?"+window.location.search.substr(1), true);
+        req.open("get", "/api/auth/token?" + window.location.search.substr(1), true);
         req.send("");
         }
         send();
-        
+    function fetchItems() {
+        var itemList = document.getElementById("item-list").getElementsByTagName("ul")[0];
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function() {
+            if (req.readyState === 4) {
+                console.log(req.response);
+                if (req.status === 200) {
+                    displayItems(itemList, req.response["items"]);
+                } else {
+                    showAlert('Error fetching items: ' + req.response.detail);
+                }
+            }
+        };
+        req.withCredentials = true;
+        req.responseType = 'json';
+        req.open("GET", "/api/items", true);
+        req.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("jwt"));
+        req.send();
+    }
+    function displayItems(itemList, items) {
+            itemList.innerHTML = '';
+            items.forEach(function(item) {
+                var li = document.createElement("li");
+                li.textContent = 'Item Name: ' + item.item + ', Amount: ' + item.amount;
+                itemList.appendChild(li);
+            });
+        }
     function sendPhoneNumber() {
         var phoneNumber = document.getElementById("phone_number").value;
         var req = new XMLHttpRequest();
         req.onreadystatechange = function() {
             if (req.readyState === 4) {
                 console.log(req.response);
-                if (req.response["result"] === true) {
-                    window.localStorage.setItem('jwt', req.response["access_token"]);
+                if (req.status === 200 && req.response["result"] === true) {
+                    showAlert(req.response["success_message"])
+                    clearInputFields();
+                } else {
+                    showAlert('Error: ' + req.response.detail);
                 }
             }
         };
@@ -60,7 +92,14 @@ async def homepage(request: Request):
         req.onreadystatechange = function() {
             if (req.readyState === 4) {
                 console.log(req.response);
-                // Handle the response as needed
+                if (req.status === 200) {
+                    // Handle the response as needed
+                    clearInputFields();
+                    showAlert(req.response["success_message"])
+                    fetchItems()
+                } else {
+                    showAlert('Error: ' + req.response.detail);
+                }
             }
         };
         req.withCredentials = true;
@@ -69,6 +108,16 @@ async def homepage(request: Request):
         req.setRequestHeader("Content-Type", "application/json");
         req.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("jwt"));
         req.send(JSON.stringify({ name: itemName, amount: itemAmount }));
+    }
+
+    function showAlert(message) {
+        alert(message);
+    }
+
+    function clearInputFields() {
+        document.getElementById("phone_number").value = "";
+        document.getElementById("item_name").value = "";
+        document.getElementById("item_amount").value = "";
     }
     </script>
 
@@ -85,5 +134,9 @@ async def homepage(request: Request):
         <input type="number" id="item_amount" name="item_amount">
         <button type="button" onclick="sendItemInfo()">Submit Item Info</button>
     </form>
-
+    <button type="button" onclick="fetchItems()"> View your orders</button>
+    <div id="item-list">
+        <h2>Items:</h2>
+        <ul></ul>
+    </div>
     ''')

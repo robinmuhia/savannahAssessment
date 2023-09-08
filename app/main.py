@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from . import models, config
 from .database import engine
-from .routers import frontend, auth
+from .routers import frontend, auth, item
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -27,6 +27,7 @@ app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 # routes
 app.include_router(frontend.router)
 app.include_router(auth.router)
+app.include_router(item.router)
 
 
 print('Successful connection')
