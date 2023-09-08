@@ -12,11 +12,10 @@ africastalking.initialize(
 sms = africastalking.SMS
 
 
-def sending(phone_number, message):
+def sending(phone_number: int, message: str):
     recipients = [f'+254{phone_number}']
-    sender = "Robin Muhia"
     try:
-        response = sms.send(message, recipients, sender)
+        response = sms.send(message, recipients)
         print(response)
     except Exception as e:
         print(f'Error sending messsage: {e}')

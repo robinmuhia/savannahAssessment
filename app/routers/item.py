@@ -52,6 +52,8 @@ async def login(request: Request, db: Session = Depends(get_db), current_user: i
     db.add(new_order)
     db.commit()  # Commit the changes to the database
     db.refresh(new_order)
+    message = f"Order for {item} for KSH.{amount} confirmed!"
+    sms.sending(phone_number=user.phone_number, message=message)
     return JSONResponse({
         'result': True,
         'success_message': "Order successfully added"
