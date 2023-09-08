@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from . import config
-from .routers import frontend, auth, item
+from .routers import frontend, auth, order
 
 
 app = FastAPI()
@@ -24,7 +24,7 @@ app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 # routes
 app.include_router(frontend.router)
 app.include_router(auth.router)
-app.include_router(item.router)
+app.include_router(order.router)
 
 
 print('Successful connection')

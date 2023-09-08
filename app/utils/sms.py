@@ -15,7 +15,6 @@ sms = africastalking.SMS
 def sending(phone_number: int, message: str):
     recipients = [f'+254{phone_number}']
     try:
-        response = sms.send(message, recipients)
-        print(response)
+        sms.send(message, recipients)
     except Exception as e:
         print(f'Error sending messsage: {e}')
