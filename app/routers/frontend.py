@@ -10,7 +10,7 @@ frontend = settings.frontend_url
 
 @router.get('/api')
 async def root():
-    return HTMLResponse('<body><a href="/api/auth/login">Log In with your Google Account</a></body>')
+    return HTMLResponse('<body><a href="https://www.vistaseniorlivinghome.co.ke/api/auth/login">Log In with your Google Account</a></body>')
 
 
 @router.get('/token')
