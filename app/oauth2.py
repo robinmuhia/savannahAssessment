@@ -9,7 +9,7 @@ from . import schemas, models, database
 # Configuration
 JWT_SECRET_KEY = settings.jwt_secret_key
 JWT_ALGORITHM = settings.jwt_algorithm
-JWT_ACCESS_TOKEN_EXPIRE_MINUTES = settings.Jwt_access_token_expire_minutes
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES = settings.jwt_access_token_expire_minutes
 
 # Token url (We should later create a token url that accepts just a user and a password to use swagger)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/token')

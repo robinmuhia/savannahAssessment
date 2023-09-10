@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     frontend_url: str
     jwt_secret_key: str
     jwt_algorithm: str
-    Jwt_access_token_expire_minutes: int
+    jwt_access_token_expire_minutes: int
 
     class Config:
         env_file = ".env"
