@@ -10,7 +10,7 @@ frontend = settings.frontend_url
 
 @router.get('/api')
 async def root():
-    return HTMLResponse('<body><a href="https://www.vistaseniorlivinghome.co.ke/api/auth/login">Log In with your Google Account</a></body>')
+    return HTMLResponse('<body><a href="api/auth/login">Log In with your Google Account</a></body>')
 
 
 @router.get('/token')
@@ -32,7 +32,7 @@ async def homepage(request: Request):
         }
         req.withCredentials = true;
         req.responseType = 'json';
-        req.open("get", "https://vistaseniorlivinghome.co.ke/api/auth/token?" + window.location.search.substr(1), true);
+        req.open("get", "api/auth/token?" + window.location.search.substr(1), true);
         req.send("");
         }
         send();
@@ -51,7 +51,7 @@ async def homepage(request: Request):
         };
         req.withCredentials = true;
         req.responseType = 'json';
-        req.open("GET", "https://vistaseniorlivinghome.co.ke/api/items", true);
+        req.open("GET", "api/items", true);
         req.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("jwt"));
         req.send();
     }
@@ -79,7 +79,7 @@ async def homepage(request: Request):
         };
         req.withCredentials = true;
         req.responseType = 'json';
-        req.open("POST", "https://vistaseniorlivinghome.co.ke/api/auth/phone", true);
+        req.open("POST", "api/auth/phone", true);
         req.setRequestHeader("Content-Type", "application/json");
         req.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("jwt"));
         req.send(JSON.stringify({ phone_number: phoneNumber }));
@@ -104,7 +104,7 @@ async def homepage(request: Request):
         };
         req.withCredentials = true;
         req.responseType = 'json';
-        req.open("POST", "https://vistaseniorlivinghome.co.ke/api/items", true);
+        req.open("POST", "api/items", true);
         req.setRequestHeader("Content-Type", "application/json");
         req.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("jwt"));
         req.send(JSON.stringify({ name: itemName, amount: itemAmount }));
