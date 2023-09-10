@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Request, Depends, HTTPException, status
 from starlette.responses import JSONResponse
 from sqlalchemy.orm import Session
+from .. import models
 from ..database import get_db
-from .. import models, oauth2
 from ..schemas import OrderCreate, OrdersOut
 from ..utils import sms
 
@@ -15,7 +15,8 @@ router = APIRouter(
 
 
 @router.post('/')
-async def login(request: Request, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
+async def login(request: Request, db: Session = Depends(get_db)):
+    user = request.session.get('user')
     request_body: dict = await request.json()
     item = request_body.get('name')
     amount = request_body.get('amount')
@@ -36,11 +37,11 @@ async def login(request: Request, db: Session = Depends(get_db), current_user: i
                             detail="Amount must be an integer")
 
     user = db.query(models.Customer).filter(
-        models.Customer.id == current_user.id).first()
+        models.Customer.email == user["email"]).first()
     # check is user exists
     if user == None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail="User does not exist")
+                            detail="Not authenticated")
 
     # check if user has a phone_number to be able to send sms
     if user.phone_number == None:
@@ -61,15 +62,17 @@ async def login(request: Request, db: Session = Depends(get_db), current_user: i
 
 
 @router.get('/', status_code=status.HTTP_200_OK, response_model=OrdersOut)
-async def add_number(db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
+async def add_number(request: Request, db: Session = Depends(get_db)):
+    request_user = request.session.get('user')
+    user_email = request_user["email"]
     # check if user is authenticated
     user = db.query(models.Customer).filter(
-        models.Customer.id == current_user.id).first()
+        models.Customer.email == user_email).first()
     if user == None:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail="User does not exist")
+                            detail="Not authenticated")
     items = db.query(models.Order).filter(
-        models.Order.owner_id == current_user.id).all()
+        models.Order.owner_id == user.id).all()
     return {
         "result": True,
         "items": items,

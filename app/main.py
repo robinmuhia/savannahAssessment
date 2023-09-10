@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from . import config
-from .routers import frontend, auth, order
+from .routers import order, auth
 
 
 app = FastAPI()
@@ -12,6 +12,10 @@ origins = ['*']
 SECRET_KEY = config.settings.session_secret_key
 
 # middleware
+
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -19,12 +23,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
+
 
 # routes
-app.include_router(frontend.router)
-app.include_router(auth.router)
 app.include_router(order.router)
-
-
-print('Successful connection')
+app.include_router(auth.router)
