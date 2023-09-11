@@ -134,7 +134,7 @@ async def homepage(request: Request):
     </div>
     ''')
         return HTMLResponse(html)
-    return HTMLResponse('<a href="/login">login</a>')
+    return HTMLResponse('<a href="/login">Press this link to log in with your google account</a>')
 
 
 @router.get('/login')
