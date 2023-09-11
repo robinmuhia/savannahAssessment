@@ -33,16 +33,16 @@ def test_changephonenum_unauthorized(client):
 
 def test_changephonenum_authorized(authorized_client):
     # if number is not 9 in length
-    response = authorized_client.post("/phone/", cookies={'session': create_session_cookie(
-        {'user': {"name": "robin", "email": "robin@gmail.com"}})}, json={"phone_number": "7014884"})
+    response = authorized_client.post(
+        "/phone/",  json={"phone_number": "7014884"})
     assert response.status_code == 422
     # if number is not numeric
-    response = authorized_client.post("/phone/", cookies={'session': create_session_cookie(
-        {'user': {"name": "robin", "email": "robin@gmail.com"}})}, json={"phone_number": "yesbana"})
+    response = authorized_client.post(
+        "/phone/", json={"phone_number": "yesbana"})
     assert response.status_code == 422
     # if number is already in use
-    response = authorized_client.post("/phone/", cookies={'session': create_session_cookie(
-        {'user': {"name": "robin", "email": "robin@gmail.com"}})}, json={"phone_number": "0713014882"})
+    response = authorized_client.post(
+        "/phone/",  json={"phone_number": "0713014882"})
     assert response.status_code == 409
     # if number is correct
     response = authorized_client.post("/phone/", cookies={'session': create_session_cookie(

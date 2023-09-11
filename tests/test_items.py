@@ -37,38 +37,33 @@ def test_orderitemsunauthorized(client):
 
 def test_orderitemsauthorized(authorized_client):
     # empty item name
-    response = authorized_client.post("/api/items/", cookies={'session': create_session_cookie(
-        {'user': {"name": "robin", "email": "robin@gmail.com"}})}, json={
-            "name": "",
-            "amount": "100"
+    response = authorized_client.post("/api/items/", json={
+        "name": "",
+        "amount": "100"
     })
     assert response.status_code == 422
     # empty amount
-    response = authorized_client.post("/api/items/", cookies={'session': create_session_cookie(
-        {'user': {"name": "robin", "email": "robin@gmail.com"}})}, json={
-            "name": "socks",
-            "amount": ""
+    response = authorized_client.post("/api/items/", json={
+        "name": "socks",
+        "amount": ""
     })
     assert response.status_code == 422
     # empty name and amount
-    response = authorized_client.post("/api/items/", cookies={'session': create_session_cookie(
-        {'user': {"name": "robin", "email": "robin@gmail.com"}})}, json={
-            "name": "",
-            "amount": ""
+    response = authorized_client.post("/api/items/", json={
+        "name": "",
+        "amount": ""
     })
     assert response.status_code == 422
     # negative amount
-    response = authorized_client.post("/api/items/", cookies={'session': create_session_cookie(
-        {'user': {"name": "robin", "email": "robin@gmail.com"}})}, json={
-            "name": "socks",
-            "amount": "-1"
+    response = authorized_client.post("/api/items/", json={
+        "name": "socks",
+        "amount": "-1"
     })
     assert response.status_code == 422
     # amount is not int
-    response = authorized_client.post("/api/items/", cookies={'session': create_session_cookie(
-        {'user': {"name": "robin", "email": "robin@gmail.com"}})}, json={
-            "name": "socks",
-            "amount": "socks"
+    response = authorized_client.post("/api/items/", json={
+        "name": "socks",
+        "amount": "socks"
     })
     assert response.status_code == 422
     # no phone number

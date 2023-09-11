@@ -13,9 +13,6 @@ class Settings(BaseSettings):
     google_client_secret: str
     session_secret_key: str
     frontend_url: str
-    jwt_secret_key: str
-    jwt_algorithm: str
-    jwt_access_token_expire_minutes: int
 
     class Config:
         env_file = ".env"

@@ -29,11 +29,10 @@ git clone https://github.com/robinmuhia/savannahAssessment.git
     you can generate the key from [here](https://djecrety.ir/)
 5.  You will need to create a google app and retreive the google client id and google secret key. To get more information about setup,
     read this [article](https://www.balbooa.com/gridbox-documentation/how-to-get-google-client-id-and-client-secret). Note that in your authorized javascript origins, fill in https:127.0.0.1 and in the authorized redirect uris, fill in https://127.0.0.1:8000/token
-6.  Install mkcert as we need an ssl certificate to run this locally. Find more about mkcert installation [here]
-    (https://github.com/FiloSottile/mkcert)
+6.  Install mkcert as we need an ssl certificate to run this locally. Find more about mkcert installation [here](https://github.com/FiloSottile/mkcert)
 7.  Set up a database using pg-admin locally
 8.  Create and start your preferred Python virtual environment. For
-    more information on how to set up a virtual environment, check the instructions on [this link](https://tutorial.djangogirls.org/en/django_installation/). Install the required libraries by running the commands below
+    more information on how to set up a virtual environment, check the instructions on [this link](https://tutorial.djangogirls.org/en/django_installation/). Install the required libraries by running the command below
 
             pip install -r requirements.txt
 

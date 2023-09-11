@@ -76,7 +76,7 @@ def authorized_client(client, session):
     session.commit()
     client.headers = {
         **client.headers,
-        "userinfo": create_session_cookie({"userinfo": {"name": "robin", "email": "robin@gmail.com"}})
+        "session": create_session_cookie({"user": {"name": "robin", "email": "robin@gmail.com"}})
     }
 
     return client
