@@ -76,5 +76,5 @@ async def add_number(request: Request, db: Session = Depends(get_db)):
     return {
         "result": True,
         "items": items,
-        "success_message": "User successfully updated"
+        "success_message": "Orders have been fetched"
     }

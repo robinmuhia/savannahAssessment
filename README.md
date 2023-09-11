@@ -4,8 +4,9 @@
 
 1. [Requirements](#requirements)
 2. [Setup](#setup)
-3. [Usage](#usage)
-4. [Development](#development)
+3. [Live](#Live)
+4. [Usage](#usage)
+5. [Development](#development)
 
 ## Requirements
 
@@ -30,7 +31,7 @@ git clone https://github.com/robinmuhia/savannahAssessment.git
     read this [article](https://www.balbooa.com/gridbox-documentation/how-to-get-google-client-id-and-client-secret). Note that in your authorized javascript origins, fill in https:127.0.0.1 and in the authorized redirect uris, fill in https://127.0.0.1:8000/token
 6.  Install mkcert as we need an ssl certificate to run this locally. Find more about mkcert installation [here]
     (https://github.com/FiloSottile/mkcert)
-7.  Set up a database in pg-admin locally
+7.  Set up a database using pg-admin locally
 8.  Create and start your preferred Python virtual environment. For
     more information on how to set up a virtual environment, check the instructions on [this link](https://tutorial.djangogirls.org/en/django_installation/). Install the required libraries by running the commands below
 
@@ -44,6 +45,11 @@ git clone https://github.com/robinmuhia/savannahAssessment.git
 10. A local migration will be made creating a database and two .pem files will be created in your folder.
 11. For details of how to get started with fastapi, check out [this link](https://fastapi.tiangolo.com/)
 12. In order to work with a virtual environment, check out [this link](https://tutorial.djangogirls.org/en/installation/#pythonanywhere)
+
+## Live
+
+The live link for the project is [here](https://www.vistaseniorlivinghome.co.ke/)
+The swagger docs for the project are located [here](https://www.vistaseniorlivinghome.co.ke/docs)
 
 ## Usage
 

@@ -1,0 +1,33 @@
+version: "3"
+services:
+  api:
+    image: robinmuhia/savannah
+    depends_on:
+      - postgres
+    ports:
+      - 80:8000
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - AFRICATALKING_SMS_USERNAME=${AFRICATALKING_SMS_USERNAME}
+      - AFRICATALKING_SMS_API_KEY=${AFRICATALKING_SMS_API_KEY}
+      - GOOGLE_CLIENT_ID = ${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET = ${GOOGLE_CLIENT_SECRET}
+      - SESSION_SECRET_KEY= ${SESSION_SECRET_KEY}
+      - FRONTEND_URL= ${FRONTEND_URL}
+      - JWT_ACCESS_TOKEN_EXPIRE_MINUTES=$ {JWT_ACCESS_TOKEN_EXPIRE_MINUTES}
+      - JWT_ALGORITHM= ${JWT_ALGORITHM}
+      - JWT_SECRET_KEY= ${JWT_SECRET_KEY}
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+
+volumes:
+  postgres-db:
