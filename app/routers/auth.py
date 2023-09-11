@@ -162,7 +162,8 @@ async def auth(request: Request, db: Session = Depends(get_db)):
         new_user_data = schemas.UserCreate(
             email=user_email, name=user_name)
         # Create a new user using the UserCreate schema data
-        new_user = models.Customer(**new_user_data.dict())
+        new_user_dict = new_user_data.model_dump()  # Use model_dump instead of dict
+        new_user = models.Customer(**new_user_dict)
         db.add(new_user)
         db.commit()  # Commit the changes to the database
         db.refresh(new_user)

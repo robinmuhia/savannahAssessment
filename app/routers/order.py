@@ -49,7 +49,8 @@ async def login(request: Request, db: Session = Depends(get_db)):
                             detail="Add phone number before placing order")
 
     new_order_data = OrderCreate(item=item, amount=amount, owner_id=user.id)
-    new_order = models.Order(**new_order_data.dict())
+    new_order_dict = new_order_data.model_dump()
+    new_order = models.Order(**new_order_dict)
     db.add(new_order)
     db.commit()  # Commit the changes to the database
     db.refresh(new_order)

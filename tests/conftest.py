@@ -1,5 +1,5 @@
-from fastapi.testclient import TestClient
 import pytest
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.main import app
@@ -65,9 +65,12 @@ def authorized_client(client, session):
         email="robi@gmail.com", name="robi")
     user_no_phone_data = schemas.UserCreate(
         email="mike@gmail.com", name="mike")
-    new_user = models.Customer(**new_user_data.dict())
-    other_user = models.Customer(**other_user_data.dict())
-    user_no_phone = models.Customer(**user_no_phone_data.dict())
+    new_user_dict = new_user_data.model_dump()
+    new_user = models.Customer(**new_user_dict)
+    other_user_dict = other_user_data.model_dump()
+    other_user = models.Customer(**other_user_dict)
+    user_no_phone_dict = user_no_phone_data.model_dump()
+    user_no_phone = models.Customer(**user_no_phone_dict)
     new_user.phone_number = "0712345678"
     other_user.phone_number = "0713014882"
     session.add(new_user)
