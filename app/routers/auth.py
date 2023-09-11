@@ -129,12 +129,12 @@ async def homepage(request: Request):
         <h2>Items:</h2>
         <ul></ul>
     </div>
-    <div>
+    <h2>
     <a href="/logout">logout</a>
-    </div>
+    </h2>
     ''')
         return HTMLResponse(html)
-    return HTMLResponse('<a href="/login">Press this link to log in with your google account</a>')
+    return HTMLResponse('<h2><a href="/login">Press this link to log in with your google account</a></h2>')
 
 
 @router.get('/login')
