@@ -7,6 +7,7 @@
 3. [Live](#Live)
 4. [Usage](#usage)
 5. [Development](#development)
+6. [Testing](#testing)
 
 ## Requirements
 
@@ -72,3 +73,11 @@ Make desired changes then commit the branch.
     git add .
     git commit -m "changes to{feature_branch_name}"
     git push origin {feature_branch_name}
+
+## Testing
+
+To run tests and check test coverage,run the following commands:
+
+            pytest
+            coverage run -m pytest
+            coverage report
