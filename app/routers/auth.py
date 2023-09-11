@@ -119,9 +119,9 @@ async def homepage(request: Request):
 
     <form>
         <label for="item_name">Item Name:</label>
-        <input type="text" id="item_name" name="item_name">
-        <label for="item_amount">Amount:</label>
-        <input type="number" id="item_amount" name="item_amount">
+        <input type="text" id="item_name" name="item_name" placeholder="input any name e.g. socks">
+        <label for="item_amount" >Amount:</label>
+        <input type="number" id="item_amount" name="item_amount" placeholder="input any amount e.g. 300">
         <button type="button" onclick="sendItemInfo()">Submit Item Info</button>
     </form>
     <button type="button" onclick="fetchItems()"> View your orders</button>
