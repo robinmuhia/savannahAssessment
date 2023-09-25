@@ -8,7 +8,7 @@ Group=robin
 WorkingDirectory=/home/robin/app/src/
 Environment="PATH=/home/robin/app/venv/bin"
 EnvironmentFile=/home/robin/.env
-ExecStart=/home/robin/app/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
+ExecStart=/home/robin/app/venv/bin/gunicorn -w 1 -k uvicorn.workers.UvicornWorker app.main:app 127.0.0.1:8000 --keyfile 127.0.0.1-key.pem --certfile 127.0.0.1.pem
 
 [Install]
 WantedBy=multi-user.target
